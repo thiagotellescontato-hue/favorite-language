@@ -7,7 +7,7 @@
   "authors": [
     "Thiago"
   ],
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/favoritelanguage/icon.png",
   "environment": "client",
   "entrypoints": {
