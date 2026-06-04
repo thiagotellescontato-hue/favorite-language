@@ -1,70 +1,70 @@
 package net.thbtt.favoritelanguage.client;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.resource.language.LanguageDefinition;
-import net.minecraft.client.resource.language.LanguageManager;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.resources.language.LanguageInfo;
+import net.minecraft.client.resources.language.LanguageManager;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
 
 import java.util.Map;
 import java.util.Set;
 
 public final class FavoriteLanguageScreen extends Screen {
     private final Screen parent;
-    private final GameOptions gameOptions;
+    private final Options options;
     private final LanguageManager languageManager;
     private FavoriteLanguageList list;
 
-    public FavoriteLanguageScreen(Screen parent, GameOptions gameOptions, LanguageManager languageManager) {
-        super(Text.translatable("favoritelanguage.favorites"));
+    public FavoriteLanguageScreen(Screen parent, Options options, LanguageManager languageManager) {
+        super(Component.translatable("favoritelanguage.favorites"));
         this.parent = parent;
-        this.gameOptions = gameOptions;
+        this.options = options;
         this.languageManager = languageManager;
     }
 
     @Override
     protected void init() {
-        this.list = this.addDrawableChild(new FavoriteLanguageList(this.client, this.width, this.height - 64, 32, 18));
-        this.addDrawableChild(ButtonWidget.builder(Text.translatable("favoritelanguage.all_languages"), button -> this.client.setScreen(this.parent))
-                .dimensions(this.width / 2 - 155, this.height - 27, 150, 20)
+        this.list = this.addRenderableWidget(new FavoriteLanguageList(this.minecraft, this.width, this.height - 64, 32, 18));
+        this.addRenderableWidget(Button.builder(Component.translatable("favoritelanguage.all_languages"), button -> this.minecraft.setScreen(this.parent))
+                .bounds(this.width / 2 - 155, this.height - 27, 150, 20)
                 .build());
-        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, button -> this.applySelectedAndClose())
-                .dimensions(this.width / 2 + 5, this.height - 27, 150, 20)
+        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, button -> this.applySelectedAndClose())
+                .bounds(this.width / 2 + 5, this.height - 27, 150, 20)
                 .build());
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 12, 0xFFFFFF);
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
+        graphics.centeredText(this.font, this.title, this.width / 2, 12, 0xFFFFFF);
         if (this.list.isEmpty()) {
-            context.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("favoritelanguage.empty"), this.width / 2, this.height / 2, 0xA0A0A0);
+            graphics.centeredText(this.font, Component.translatable("favoritelanguage.empty"), this.width / 2, this.height / 2, 0xA0A0A0);
         }
     }
 
     private void applySelectedAndClose() {
-        FavoriteLanguageEntry selected = this.list.getSelectedOrNull();
-        if (selected != null && !selected.languageCode.equals(this.languageManager.getLanguage())) {
-            this.languageManager.setLanguage(selected.languageCode);
-            this.gameOptions.language = selected.languageCode;
-            this.client.reloadResources();
+        FavoriteLanguageEntry selected = this.list.getSelected();
+        if (selected != null && !selected.languageCode.equals(this.languageManager.getSelected())) {
+            this.languageManager.setSelected(selected.languageCode);
+            this.options.languageCode = selected.languageCode;
+            this.minecraft.reloadResourcePacks();
         }
-        this.client.setScreen(this.parent);
+        this.minecraft.setScreen(this.parent);
     }
 
-    private final class FavoriteLanguageList extends AlwaysSelectedEntryListWidget<FavoriteLanguageEntry> {
-        private FavoriteLanguageList(MinecraftClient client, int width, int height, int y, int itemHeight) {
-            super(client, width, height, y, itemHeight);
+    private final class FavoriteLanguageList extends ObjectSelectionList<FavoriteLanguageEntry> {
+        private FavoriteLanguageList(Minecraft minecraft, int width, int height, int y, int itemHeight) {
+            super(minecraft, width, height, y, itemHeight);
             Set<String> favorites = FavoriteLanguageStore.all();
-            String currentLanguage = languageManager.getLanguage();
-            for (Map.Entry<String, LanguageDefinition> language : languageManager.getAllLanguages().entrySet()) {
+            String currentLanguage = languageManager.getSelected();
+            for (Map.Entry<String, LanguageInfo> language : languageManager.getLanguages().entrySet()) {
                 if (!favorites.contains(language.getKey())) {
                     continue;
                 }
@@ -74,14 +74,14 @@ public final class FavoriteLanguageScreen extends Screen {
                     this.setSelected(entry);
                 }
             }
-            FavoriteLanguageEntry selected = this.getSelectedOrNull();
+            FavoriteLanguageEntry selected = this.getSelected();
             if (selected != null) {
                 this.centerScrollOn(selected);
             }
         }
 
         public boolean isEmpty() {
-            return this.getEntryCount() == 0;
+            return this.children().isEmpty();
         }
 
         @Override
@@ -90,25 +90,25 @@ public final class FavoriteLanguageScreen extends Screen {
         }
     }
 
-    private final class FavoriteLanguageEntry extends AlwaysSelectedEntryListWidget.Entry<FavoriteLanguageEntry> {
+    private final class FavoriteLanguageEntry extends ObjectSelectionList.Entry<FavoriteLanguageEntry> {
         private final FavoriteLanguageList list;
         private final String languageCode;
-        private final Text languageDefinition;
+        private final Component languageDefinition;
 
-        private FavoriteLanguageEntry(FavoriteLanguageList list, String languageCode, LanguageDefinition languageDefinition) {
+        private FavoriteLanguageEntry(FavoriteLanguageList list, String languageCode, LanguageInfo languageInfo) {
             this.list = list;
             this.languageCode = languageCode;
-            this.languageDefinition = languageDefinition.getDisplayText();
+            this.languageDefinition = languageInfo.toComponent();
         }
 
         @Override
-        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            TextRenderer renderer = FavoriteLanguageScreen.this.textRenderer;
-            context.drawCenteredTextWithShadow(renderer, this.languageDefinition, FavoriteLanguageScreen.this.width / 2, this.getContentMiddleY() - 9 / 2, 0xFFFFFF);
+        public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            Font renderer = FavoriteLanguageScreen.this.font;
+            graphics.centeredText(renderer, this.languageDefinition, FavoriteLanguageScreen.this.width / 2, this.getContentYMiddle() - 9 / 2, 0xFFFFFF);
         }
 
         @Override
-        public boolean mouseClicked(Click click, boolean doubleClick) {
+        public boolean mouseClicked(MouseButtonEvent click, boolean doubleClick) {
             this.onPressed();
             return true;
         }
@@ -118,9 +118,8 @@ public final class FavoriteLanguageScreen extends Screen {
         }
 
         @Override
-        public Text getNarration() {
-            return Text.translatable("narrator.select", this.languageDefinition);
+        public Component getNarration() {
+            return Component.translatable("narrator.select", this.languageDefinition);
         }
     }
 }
-
