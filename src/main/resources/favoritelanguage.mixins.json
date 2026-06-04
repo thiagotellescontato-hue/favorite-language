@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.thbtt.favoritelanguage.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "LanguageEntryMixin",
+    "LanguageOptionsScreenMixin",
+    "LanguageSelectionListWidgetMixin",
+    "SplashTextResourceSupplierMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
