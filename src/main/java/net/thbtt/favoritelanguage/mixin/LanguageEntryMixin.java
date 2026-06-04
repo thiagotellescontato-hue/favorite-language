@@ -30,6 +30,8 @@ public abstract class LanguageEntryMixin extends ObjectSelectionList.Entry imple
     private static final int FAVORITELANGUAGE_STAR_SIZE = 10;
     @Unique
     private static final int FAVORITELANGUAGE_STAR_TEXTURE_SIZE = 20;
+    @Unique
+    private static final int FAVORITELANGUAGE_STAR_LEFT_PADDING = 8;
 
     @Shadow
     @Final
@@ -42,8 +44,8 @@ public abstract class LanguageEntryMixin extends ObjectSelectionList.Entry imple
 
     @Inject(method = "extractContent", at = @At("TAIL"))
     private void favoritelanguage$renderStar(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo ci) {
-        this.favoritelanguage$starX = this.getContentX() - 14;
-        this.favoritelanguage$starY = this.getContentYMiddle() - FAVORITELANGUAGE_STAR_SIZE / 2;
+        this.favoritelanguage$starX = this.getContentX() + FAVORITELANGUAGE_STAR_LEFT_PADDING;
+        this.favoritelanguage$starY = this.getContentY() + (this.getContentHeight() - FAVORITELANGUAGE_STAR_SIZE) / 2;
         Identifier texture = FavoriteLanguageStore.isFavorite(this.code)
                 ? FAVORITELANGUAGE_FAVORITE_STAR_TEXTURE
                 : FAVORITELANGUAGE_EMPTY_STAR_TEXTURE;
