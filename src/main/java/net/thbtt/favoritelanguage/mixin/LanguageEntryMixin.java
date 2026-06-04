@@ -2,6 +2,7 @@ package net.thbtt.favoritelanguage.mixin;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -20,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(targets = "net.minecraft.client.gui.screens.options.LanguageSelectScreen$LanguageSelectionList$Entry")
-public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess {
+public abstract class LanguageEntryMixin extends ObjectSelectionList.Entry implements FavoriteLanguageEntryAccess {
     @Unique
     private static final Identifier FAVORITELANGUAGE_EMPTY_STAR_TEXTURE = Identifier.fromNamespaceAndPath(FavoriteLanguage.MOD_ID, "textures/gui/star_empty.png");
     @Unique
@@ -38,12 +39,6 @@ public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess 
     private int favoritelanguage$starX;
     @Unique
     private int favoritelanguage$starY;
-
-    @Shadow
-    public abstract int getContentX();
-
-    @Shadow
-    public abstract int getContentYMiddle();
 
     @Inject(method = "extractContent", at = @At("TAIL"))
     private void favoritelanguage$renderStar(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo ci) {
