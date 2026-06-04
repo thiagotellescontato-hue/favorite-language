@@ -1,27 +1,27 @@
 {
-  "schemaVersion": 1,
-  "id": "favoritelanguage",
-  "version": "${version}",
-  "name": "Favorite Language",
-  "description": "Adds favorite languages to Minecraft's language selector.",
-  "authors": [
-    "Thiago"
-  ],
-  "license": "MIT",
-  "icon": "assets/favoritelanguage/icon.png",
-  "environment": "client",
-  "entrypoints": {
-    "client": [
-      "net.thbtt.favoritelanguage.client.FavoriteLanguageClient"
-    ]
-  },
-  "mixins": [
-    "favoritelanguage.mixins.json"
-  ],
-  "depends": {
-    "fabricloader": ">=0.19.3",
-    "minecraft": "~1.21.1",
-    "java": ">=21",
-    "fabric-api": "*"
-  }
+    "schemaVersion":  1,
+    "id":  "favoritelanguage",
+    "version":  "${version}",
+    "name":  "Favorite Language",
+    "description":  "Adds favorite languages to Minecraft\u0027s language selector.",
+    "authors":  [
+                    "Thiago"
+                ],
+    "license":  "MIT",
+    "icon":  "assets/favoritelanguage/icon.png",
+    "environment":  "client",
+    "entrypoints":  {
+                        "client":  [
+                                       "net.thbtt.favoritelanguage.client.FavoriteLanguageClient"
+                                   ]
+                    },
+    "mixins":  [
+                   "favoritelanguage.mixins.json"
+               ],
+    "depends":  {
+                    "fabricloader":  "\u003e=0.19.3",
+                    "minecraft":  "=1.21.10",
+                    "java":  "\u003e=21",
+                    "fabric-api":  "*"
+                }
 }
