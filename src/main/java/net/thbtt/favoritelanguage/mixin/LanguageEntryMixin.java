@@ -2,6 +2,7 @@ package net.thbtt.favoritelanguage.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -44,7 +45,7 @@ public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess 
         Identifier texture = FavoriteLanguageStore.isFavorite(this.languageCode)
                 ? FAVORITELANGUAGE_FAVORITE_STAR_TEXTURE
                 : FAVORITELANGUAGE_EMPTY_STAR_TEXTURE;
-        context.drawTexture(texture, this.favoritelanguage$starX, this.favoritelanguage$starY, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_SIZE, 0.0F, 0.0F, FAVORITELANGUAGE_STAR_TEXTURE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE);
+        context.drawTexture(RenderLayer::getGuiTextured, texture, this.favoritelanguage$starX, this.favoritelanguage$starY, 0.0F, 0.0F, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE);
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
