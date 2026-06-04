@@ -43,9 +43,9 @@ public final class FavoriteLanguageScreen extends Screen {
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
         super.extractRenderState(graphics, mouseX, mouseY, delta);
-        graphics.centeredText(this.font, this.title, this.width / 2, 12, 0xFFFFFF);
+        graphics.centeredText(this.font, this.title, this.width / 2, 12, 0xFFFFFFFF);
         if (this.list.isEmpty()) {
-            graphics.centeredText(this.font, Component.translatable("favoritelanguage.empty"), this.width / 2, this.height / 2, 0xA0A0A0);
+            graphics.centeredText(this.font, Component.translatable("favoritelanguage.empty"), this.width / 2, this.height / 2, 0xFFA0A0A0);
         }
     }
 
@@ -104,7 +104,7 @@ public final class FavoriteLanguageScreen extends Screen {
         @Override
         public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             Font renderer = FavoriteLanguageScreen.this.font;
-            graphics.centeredText(renderer, this.languageDefinition, FavoriteLanguageScreen.this.width / 2, this.getContentYMiddle() - 9 / 2, 0xFFFFFF);
+            graphics.centeredText(renderer, this.languageDefinition, FavoriteLanguageScreen.this.width / 2, this.getContentYMiddle() - 9 / 2, 0xFFFFFFFF);
         }
 
         @Override
