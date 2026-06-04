@@ -27,7 +27,7 @@ public abstract class LanguageEntryMixin extends ObjectSelectionList.Entry imple
     @Unique
     private static final Identifier FAVORITELANGUAGE_FAVORITE_STAR_TEXTURE = Identifier.fromNamespaceAndPath(FavoriteLanguage.MOD_ID, "textures/gui/star_favorite.png");
     @Unique
-    private static final int FAVORITELANGUAGE_STAR_SIZE = 10;
+    private static final int FAVORITELANGUAGE_STAR_SIZE = 20;
     @Unique
     private static final int FAVORITELANGUAGE_STAR_TEXTURE_SIZE = 20;
     @Unique
