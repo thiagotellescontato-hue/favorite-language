@@ -27,7 +27,9 @@ public abstract class LanguageEntryMixin extends ObjectSelectionList.Entry imple
     @Unique
     private static final Identifier FAVORITELANGUAGE_FAVORITE_STAR_TEXTURE = Identifier.fromNamespaceAndPath(FavoriteLanguage.MOD_ID, "textures/gui/star_favorite.png");
     @Unique
-    private static final int FAVORITELANGUAGE_STAR_SIZE = 20;
+    private static final int FAVORITELANGUAGE_STAR_SIZE = 10;
+    @Unique
+    private static final int FAVORITELANGUAGE_STAR_SOURCE_SIZE = 20;
     @Unique
     private static final int FAVORITELANGUAGE_STAR_TEXTURE_SIZE = 20;
     @Unique
@@ -49,7 +51,7 @@ public abstract class LanguageEntryMixin extends ObjectSelectionList.Entry imple
         Identifier texture = FavoriteLanguageStore.isFavorite(this.code)
                 ? FAVORITELANGUAGE_FAVORITE_STAR_TEXTURE
                 : FAVORITELANGUAGE_EMPTY_STAR_TEXTURE;
-        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.favoritelanguage$starX, this.favoritelanguage$starY, 0.0F, 0.0F, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE);
+        graphics.blit(RenderPipelines.GUI_TEXTURED, texture, this.favoritelanguage$starX, this.favoritelanguage$starY, 0.0F, 0.0F, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_SOURCE_SIZE, FAVORITELANGUAGE_STAR_SOURCE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE);
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
