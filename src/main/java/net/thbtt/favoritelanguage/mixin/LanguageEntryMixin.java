@@ -67,7 +67,7 @@ public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess 
             return false;
         }
         FavoriteLanguageStore.toggle(this.languageCode);
-        MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+        MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.ui(SoundEvents.UI_BUTTON_CLICK, 1.0F));
         return true;
     }
 }
