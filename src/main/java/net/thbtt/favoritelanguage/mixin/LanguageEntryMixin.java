@@ -27,6 +27,8 @@ public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess 
     @Unique
     private static final int FAVORITELANGUAGE_STAR_SIZE = 10;
     @Unique
+    private static final int FAVORITELANGUAGE_STAR_SOURCE_SIZE = 20;
+    @Unique
     private static final int FAVORITELANGUAGE_STAR_TEXTURE_SIZE = 20;
 
     @Shadow
@@ -45,7 +47,7 @@ public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess 
         Identifier texture = FavoriteLanguageStore.isFavorite(this.languageCode)
                 ? FAVORITELANGUAGE_FAVORITE_STAR_TEXTURE
                 : FAVORITELANGUAGE_EMPTY_STAR_TEXTURE;
-        context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.favoritelanguage$starX, this.favoritelanguage$starY, 0.0F, 0.0F, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, texture, this.favoritelanguage$starX, this.favoritelanguage$starY, 0.0F, 0.0F, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_SIZE, FAVORITELANGUAGE_STAR_SOURCE_SIZE, FAVORITELANGUAGE_STAR_SOURCE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE, FAVORITELANGUAGE_STAR_TEXTURE_SIZE);
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
