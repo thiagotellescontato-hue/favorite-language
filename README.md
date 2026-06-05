@@ -12,7 +12,7 @@ It lets you mark your preferred languages with a star and quickly access them us
 
 | Feature | Description |
 |---|---|
-| Favorite Languages | Adds a star button next to languages in the language screen. |
+| ⭐ Favorite Languages | Adds a star button next to languages in the language screen. |
 | Quick Access | Use the Favorites button to quickly open your favorite languages. |
 | Simple Integration | Keeps the vanilla language screen familiar and easy to use. |
 | Client-Side Only | No server installation required. |
@@ -30,7 +30,7 @@ After that, use the **Favorites** button to quickly select your preferred langua
 
 ## Compatibility
 
-- Minecraft: **1.21.1**
+- Minecraft: **1.21.1-1.21.11**, **26.1-26.1.2**
 - Mod loader: **Fabric**
 - Environment: **Client-side**
 
