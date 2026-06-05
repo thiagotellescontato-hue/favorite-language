@@ -30,7 +30,6 @@ public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess 
     private static final int FAVORITELANGUAGE_STAR_SOURCE_SIZE = 20;
     @Unique
     private static final int FAVORITELANGUAGE_STAR_TEXTURE_SIZE = 20;
-    @Unique
     @Shadow
     @Final
     String languageCode;
