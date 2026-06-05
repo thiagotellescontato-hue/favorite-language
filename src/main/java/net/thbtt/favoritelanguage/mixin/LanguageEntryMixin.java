@@ -2,8 +2,10 @@ package net.thbtt.favoritelanguage.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
+import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.thbtt.favoritelanguage.FavoriteLanguage;
@@ -19,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(targets = "net.minecraft.client.gui.screen.option.LanguageOptionsScreen$LanguageSelectionListWidget$LanguageEntry")
-public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess {
+public abstract class LanguageEntryMixin extends AlwaysSelectedEntryListWidget.Entry implements FavoriteLanguageEntryAccess {
     @Unique
     private static final Identifier FAVORITELANGUAGE_EMPTY_STAR_TEXTURE = Identifier.of(FavoriteLanguage.MOD_ID, "textures/gui/star_empty.png");
     @Unique
@@ -28,6 +30,8 @@ public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess 
     private static final int FAVORITELANGUAGE_STAR_SIZE = 10;
     @Unique
     private static final int FAVORITELANGUAGE_STAR_TEXTURE_SIZE = 20;
+    @Unique
+    private static final int FAVORITELANGUAGE_STAR_LEFT_OFFSET = 14;
 
     @Shadow
     @Final
@@ -39,9 +43,9 @@ public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess 
     private int favoritelanguage$starY;
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void favoritelanguage$renderStar(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo ci) {
-        this.favoritelanguage$starX = x - 14;
-        this.favoritelanguage$starY = y + (entryHeight - FAVORITELANGUAGE_STAR_SIZE) / 2;
+    private void favoritelanguage$renderStar(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo ci) {
+        this.favoritelanguage$starX = this.getX() - FAVORITELANGUAGE_STAR_LEFT_OFFSET;
+        this.favoritelanguage$starY = this.getContentY() + (this.getContentHeight() - FAVORITELANGUAGE_STAR_SIZE) / 2;
         Identifier texture = FavoriteLanguageStore.isFavorite(this.languageCode)
                 ? FAVORITELANGUAGE_FAVORITE_STAR_TEXTURE
                 : FAVORITELANGUAGE_EMPTY_STAR_TEXTURE;
@@ -49,8 +53,8 @@ public abstract class LanguageEntryMixin implements FavoriteLanguageEntryAccess 
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
-    private void favoritelanguage$toggleFavorite(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (this.favoritelanguage$toggleFavoriteAt(mouseX, mouseY, button)) {
+    private void favoritelanguage$toggleFavorite(Click click, boolean doubleClick, CallbackInfoReturnable<Boolean> cir) {
+        if (this.favoritelanguage$toggleFavoriteAt(click.x(), click.y(), click.button())) {
             cir.setReturnValue(true);
         }
     }
