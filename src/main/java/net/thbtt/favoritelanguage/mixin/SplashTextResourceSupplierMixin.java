@@ -4,7 +4,6 @@ import net.minecraft.client.resource.SplashTextResourceSupplier;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.profiler.Profiler;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,16 +25,13 @@ public class SplashTextResourceSupplierMixin {
             "ThBTT on Modrinth!"
     );
 
-    @Shadow
-    private List<String> splashTexts;
-
-    @Inject(method = "apply(Ljava/util/List;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", at = @At("TAIL"))
+    @Inject(method = "apply(Ljava/util/List;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", at = @At("HEAD"))
     private void favoritelanguage$addCustomSplashTexts(
             List<String> prepared,
             ResourceManager manager,
             Profiler profiler,
             CallbackInfo ci
     ) {
-        this.splashTexts.addAll(CUSTOM_SPLASH_TEXTS);
+        prepared.addAll(CUSTOM_SPLASH_TEXTS);
     }
 }
