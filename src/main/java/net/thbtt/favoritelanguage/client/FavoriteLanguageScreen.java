@@ -2,7 +2,6 @@ package net.thbtt.favoritelanguage.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
@@ -102,15 +101,24 @@ public final class FavoriteLanguageScreen extends Screen {
         }
 
         @Override
-        public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             TextRenderer renderer = FavoriteLanguageScreen.this.textRenderer;
-            context.drawCenteredTextWithShadow(renderer, this.languageDefinition, FavoriteLanguageScreen.this.width / 2, this.getContentMiddleY() - 9 / 2, 0xFFFFFFFF);
+            context.drawCenteredTextWithShadow(renderer, this.languageDefinition, FavoriteLanguageScreen.this.width / 2, y + entryHeight / 2 - 9 / 2, 0xFFFFFFFF);
         }
 
         @Override
-        public boolean mouseClicked(Click click, boolean doubleClick) {
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
             this.onPressed();
-            return true;
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+
+        @Override
+        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+            if (net.minecraft.client.input.KeyCodes.isToggle(keyCode)) {
+                this.onPressed();
+                return true;
+            }
+            return super.keyPressed(keyCode, scanCode, modifiers);
         }
 
         private void onPressed() {
