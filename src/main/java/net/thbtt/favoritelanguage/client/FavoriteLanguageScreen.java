@@ -42,9 +42,9 @@ public final class FavoriteLanguageScreen extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
-        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 12, 0xFFFFFF);
+        context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 12, 0xFFFFFFFF);
         if (this.list.isEmpty()) {
-            context.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("favoritelanguage.empty"), this.width / 2, this.height / 2, 0xA0A0A0);
+            context.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("favoritelanguage.empty"), this.width / 2, this.height / 2, 0xFFA0A0A0);
         }
     }
 
@@ -103,7 +103,7 @@ public final class FavoriteLanguageScreen extends Screen {
         @Override
         public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             TextRenderer renderer = FavoriteLanguageScreen.this.textRenderer;
-            context.drawCenteredTextWithShadow(renderer, this.languageDefinition, FavoriteLanguageScreen.this.width / 2, y + entryHeight / 2 - 9 / 2, 0xFFFFFF);
+            context.drawCenteredTextWithShadow(renderer, this.languageDefinition, FavoriteLanguageScreen.this.width / 2, y + entryHeight / 2 - 9 / 2, 0xFFFFFFFF);
         }
 
         @Override
