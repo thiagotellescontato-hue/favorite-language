@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(SplashTextResourceSupplier.class)
@@ -36,6 +37,8 @@ public class SplashTextResourceSupplierMixin {
             Profiler profiler,
             CallbackInfo ci
     ) {
-        this.splashTexts.addAll(CUSTOM_SPLASH_TEXTS);
+        List<String> splashTexts = new ArrayList<>(this.splashTexts);
+        splashTexts.addAll(CUSTOM_SPLASH_TEXTS);
+        this.splashTexts = splashTexts;
     }
 }
